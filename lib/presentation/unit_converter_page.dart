@@ -80,6 +80,8 @@ class _UnitConverterWidgetState extends State<UnitConverterWidget> {
           const CircularProgressIndicator()
         else ...[
           DropdownButton<Dimension>(
+            hint: const Text('Select a dimension'),
+            value: selectedDimension,
             items: widget.allDimensions
                 .map(
                   (dimension) => DropdownMenuItem<Dimension>(
@@ -105,48 +107,73 @@ class _UnitConverterWidgetState extends State<UnitConverterWidget> {
               }
             },
           ),
+          const SizedBox(height: 30),
           if (selectedDimension == null)
-            const Text('Please select a dimension to start.')
+            const Text('No dimension selected')
           else if (unitsForSelectedDimension == null ||
               unitsForSelectedDimension!.isEmpty)
             const Text('There are no units for the selected dimension.')
           else ...[
             DropdownButton<Unit>(
+              hint: const Text('Select a base unit'),
+              value: selectedBaseUnit,
               items: unitsForSelectedDimension!
                   .map((unit) => DropdownMenuItem<Unit>(
                       value: unit, child: Text(unit.name)))
                   .toList(),
               onChanged: (baseUnit) {
-                selectedBaseUnit = baseUnit;
+                setState(() {
+                  selectedBaseUnit = baseUnit;
+                });
                 convert();
               },
             ),
+            const SizedBox(height: 15),
             DropdownButton<Unit>(
+              hint: const Text('Select a target unit'),
+              value: selectedTargetUnit,
               items: unitsForSelectedDimension!
                   .map((unit) => DropdownMenuItem<Unit>(
                       value: unit, child: Text(unit.name)))
                   .toList(),
               onChanged: (baseUnit) {
-                selectedTargetUnit = baseUnit;
+                setState(() {
+                  selectedTargetUnit = baseUnit;
+                });
                 convert();
               },
             ),
-            TextField(
-              keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'\d+([\.]\d*)?'))
-              ],
-              onChanged: (value) {
-                if (value.isNotEmpty) {
-                  valueToConvert = double.parse(value);
-                } else {
-                  valueToConvert = null;
-                }
-                convert();
-              },
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: 'Type a value to convert',
+                  suffix: selectedBaseUnit != null
+                      ? Text(selectedBaseUnit!.symbol)
+                      : null,
+                ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'\d+([\.]\d*)?'))
+                ],
+                onChanged: (value) {
+                  late double? parsedValue;
+                  if (value.isNotEmpty) {
+                    parsedValue = double.parse(value);
+                  } else {
+                    parsedValue = null;
+                  }
+                  setState(() {
+                    valueToConvert = parsedValue;
+                  });
+                  convert();
+                },
+              ),
             ),
+            const SizedBox(height: 50),
             if (conversionResult != null)
-              Text('The result is $conversionResult.')
+              Text('Result: $conversionResult${selectedTargetUnit!.symbol}')
           ]
         ]
       ],
