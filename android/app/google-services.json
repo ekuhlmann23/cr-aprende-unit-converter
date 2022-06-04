@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "290710242724",
+    "project_id": "cr-aprende-demo",
+    "storage_bucket": "cr-aprende-demo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290710242724:android:582182739ca85d7de2ad31",
+        "android_client_info": {
+          "package_name": "com.example.unit_converter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "290710242724-2f2oljjbos9e2cpa5qnnblbp77afd8js.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvA8IaBljrfiT-n2wcTm5joVZM-0jN5co"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "290710242724-2f2oljjbos9e2cpa5qnnblbp77afd8js.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
